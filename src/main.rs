@@ -1,8 +1,8 @@
-use bip39::Mnemonic;
-use rand::{thread_rng, Rng};
-use crate::shamir::Shamir;
 use crate::shamir::recover::Recover;
 use crate::shamir::share::Share;
+use crate::shamir::Shamir;
+use bip39::Mnemonic;
+use rand::{thread_rng, Rng};
 
 mod shamir;
 
@@ -14,23 +14,25 @@ fn entropy() -> [u8; 32] {
 }
 
 fn main() {
-
     let entropy = entropy();
     println!("Entropy: {:?}", entropy);
 
     let mnemonic = Mnemonic::from_entropy(&entropy).unwrap();
     println!("Seed phrase: {:?}", mnemonic.to_string());
 
-    let shares = Shamir::share(Vec::from(entropy), 5, 3);
+    let shares = Shamir::share(&Vec::from(entropy), 5, 3).unwrap();
     println!("Shares:");
     for i in 0..shares.len() {
         let mnemonic = Mnemonic::from_entropy(&shares[i].1).unwrap();
         println!("{:?}: {:?}", shares[i].0, mnemonic.to_string());
     }
 
-    let recovered_entropy = Shamir::recover(&shares);
+    let recovered_entropy = Shamir::recover(&shares).unwrap();
     println!("Recovered entropy: {:?}", recovered_entropy);
 
     let recovered_mnemonic = Mnemonic::from_entropy(&recovered_entropy).unwrap();
-    println!("Recovered seed phrase: {:?}", recovered_mnemonic.to_string());
+    println!(
+        "Recovered seed phrase: {:?}",
+        recovered_mnemonic.to_string()
+    );
 }

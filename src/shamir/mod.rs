@@ -1,6 +1,6 @@
-use rand::{Rng, thread_rng};
 use crate::shamir::recover::Recover;
 use crate::shamir::share::Share;
+use rand::{thread_rng, Rng};
 
 pub mod recover;
 pub mod share;
@@ -10,15 +10,18 @@ pub struct Shamir {
 }
 
 impl Shamir {
-
-    fn from(secret: &u8, k: u8) -> Self {
-        let mut poly = vec![secret.clone()];
-        let mut rng = thread_rng();
-        for _ in 1..k {
-            let coefficient: u8 = rng.gen();
-            poly.push(coefficient)
+    fn from(secret: &u8, k: u8) -> Result<Self, String> {
+        if k > 0 {
+            let mut poly = vec![secret.clone()];
+            let mut rng = thread_rng();
+            for _ in 1..k {
+                let coefficient: u8 = rng.gen();
+                poly.push(coefficient)
+            }
+            Ok(Self { poly })
+        } else {
+            Err("k must be a positive number".to_owned())
         }
-        Self { poly }
     }
 
     fn evaluate(&self, x: u8) -> u8 {
@@ -29,28 +32,18 @@ impl Shamir {
         }
         b
     }
-
-}
-
-impl Share<u8> for Shamir {
-
-    fn share(secret: u8, n: usize, k: u8) -> Vec<(u8, u8)> {
-        let mut shares = vec![(0u8, 0u8); n];
-        let shamir = Self::from(&secret, k);
-        for i in 0..n {
-            let x = (i + 1) as u8;
-            let y = shamir.evaluate(x);
-            shares[i].0 = x;
-            shares[i].1 = y;
-        }
-        shares
-    }
-
 }
 
 impl Recover<u8> for Shamir {
+    fn validate_recover(shares: &[(u8, u8)]) -> Result<(), String> {
+        if shares.len() == 0 {
+            return Err("shares must be non-empty".to_owned());
+        }
+        Ok(())
+    }
 
-    fn recover(shares: &[(u8, u8)]) -> u8 {
+    fn recover(shares: &[(u8, u8)]) -> Result<u8, String> {
+        Self::validate_recover(shares)?;
         let mut recovered = 0u8;
         for i in 0..shares.len() {
             let mut numerator = 1i64;
@@ -65,44 +58,89 @@ impl Recover<u8> for Shamir {
             }
             recovered += shares[i].1 * (numerator / denominator) as u8;
         }
-        recovered
+        Ok(recovered)
+    }
+}
+
+impl Share<u8> for Shamir {
+    fn validate_share(_: &u8, n: u8, k: u8) -> Result<(), String> {
+        if k == 0 {
+            return Err("k must be a positive number".to_owned());
+        }
+        if k > n {
+            return Err("k must be less than or equal to n".to_owned());
+        }
+        Ok(())
     }
 
+    fn share(secret: &u8, n: u8, k: u8) -> Result<Vec<(u8, u8)>, String> {
+        Self::validate_share(secret, n, k)?;
+        let shamir = Self::from(secret, k)?;
+        let mut shares = vec![(0u8, 0u8); n as usize];
+        for i in 0..n as usize {
+            let x = (i + 1) as u8;
+            let y = shamir.evaluate(x);
+            shares[i].0 = x;
+            shares[i].1 = y;
+        }
+        Ok(shares)
+    }
+}
+
+impl Recover<Vec<u8>> for Shamir {
+    fn validate_recover(shares: &[(u8, Vec<u8>)]) -> Result<(), String> {
+        if shares.len() == 0 {
+            return Err("shares must be non-empty".to_owned());
+        }
+        let len = shares[0].1.len();
+        for (_, evaluated) in shares {
+            if evaluated.len() != len {
+                return Err("all shares must be the same len".to_owned());
+            }
+        }
+        Ok(())
+    }
+
+    fn recover(shares: &[(u8, Vec<u8>)]) -> Result<Vec<u8>, String> {
+        Self::validate_recover(shares)?;
+        let len = shares[0].1.len();
+        let mut recovered = vec![0u8; len];
+        for i in 0..len {
+            let mut temp = vec![(0u8, 0u8); shares.len()];
+            for j in 0..shares.len() {
+                temp[j].0 = shares[j].0;
+                temp[j].1 = shares[j].1[i];
+            }
+            recovered[i] = Self::recover(&temp)?;
+        }
+        Ok(recovered)
+    }
 }
 
 impl Share<Vec<u8>> for Shamir {
+    fn validate_share(secret: &Vec<u8>, n: u8, k: u8) -> Result<(), String> {
+        if secret.len() == 0 {
+            return Err("secret must be non-empty".to_owned());
+        }
+        if k == 0 {
+            return Err("k must be a positive number".to_owned());
+        }
+        if k > n {
+            return Err("k must be less than or equal to n".to_owned());
+        }
+        Ok(())
+    }
 
-    fn share(secret: Vec<u8>, n: usize, k: u8) -> Vec<(u8, Vec<u8>)> {
-        let mut shares = vec![(0u8, Vec::new()); n];
+    fn share(secret: &Vec<u8>, n: u8, k: u8) -> Result<Vec<(u8, Vec<u8>)>, String> {
+        Self::validate_share(secret, n, k)?;
+        let mut shares = vec![(0u8, Vec::new()); n as usize];
         for i in 0..secret.len() {
-            let temp = Shamir::share(secret[i], n, k);
+            let temp = Self::share(&secret[i], n, k)?;
             for j in 0..temp.len() {
                 shares[j].0 = temp[j].0;
                 shares[j].1.push(temp[j].1)
             }
         }
-        shares
+        Ok(shares)
     }
-
-}
-
-impl Recover<Vec<u8>> for Shamir {
-
-    fn recover(secret: &[(u8, Vec<u8>)]) -> Vec<u8> {
-        let mut recovered = Vec::new();
-        let mut i = 0usize;
-        'outer: loop {
-            let mut temp = Vec::new();
-            for j in 0..secret.len() {
-                if i == secret[j].1.len() {
-                    break 'outer;
-                }
-                temp.push((secret[j].0, secret[j].1[i]));
-            }
-            recovered.push(Shamir::recover(&temp));
-            i += 1;
-        }
-        recovered
-    }
-
 }

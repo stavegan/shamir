@@ -1,4 +1,5 @@
 pub trait Share<T> {
+    fn validate_share(secret: &T, n: u8, k: u8) -> Result<(), String>;
 
-    fn share(secret: T, n: usize, k: u8) -> Vec<(u8, T)>;
+    fn share(secret: &T, n: u8, k: u8) -> Result<Vec<(u8, T)>, String>;
 }
