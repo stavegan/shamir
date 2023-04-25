@@ -1,8 +1,6 @@
 use bip39::Mnemonic;
 use rand::{thread_rng, Rng};
-use shamir_util::shamir::recover::Recover;
-use shamir_util::shamir::share::Share;
-use shamir_util::shamir::Shamir;
+use shamir_util::shamir::{recover::Recover, share::Share, Shamir};
 
 fn entropy() -> [u8; 32] {
     let mut entropy = [0u8; 32];

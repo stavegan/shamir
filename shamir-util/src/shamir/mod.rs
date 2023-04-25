@@ -12,11 +12,11 @@ pub struct Shamir {
 impl Shamir {
     fn from(secret: &u8, k: u8) -> Result<Self, String> {
         if k > 0 {
-            let mut poly = vec![secret.clone()];
+            let mut poly = vec![0; k as usize];
             let mut rng = thread_rng();
-            for _ in 1..k {
-                let coefficient: u8 = rng.gen();
-                poly.push(coefficient)
+            poly[0] = secret.clone();
+            for i in 1..k as usize {
+                poly[i] = rng.gen();
             }
             Ok(Self { poly })
         } else {
@@ -25,7 +25,7 @@ impl Shamir {
     }
 
     fn evaluate(&self, x: u8) -> u8 {
-        let mut b = 0u8;
+        let mut b = 0;
         let range = 0..self.poly.len();
         for i in range.rev() {
             b = b * x + self.poly[i];
@@ -44,7 +44,7 @@ impl Recover<u8> for Shamir {
 
     fn recover(shares: &[(u8, u8)]) -> Result<u8, String> {
         Self::validate_recover(shares)?;
-        let mut recovered = 0u8;
+        let mut recovered = 0;
         for i in 0..shares.len() {
             let mut numerator = 1i64;
             let mut denominator = 1i64;
@@ -76,7 +76,7 @@ impl Share<u8> for Shamir {
     fn share(secret: &u8, n: u8, k: u8) -> Result<Vec<(u8, u8)>, String> {
         Self::validate_share(secret, n, k)?;
         let shamir = Self::from(secret, k)?;
-        let mut shares = vec![(0u8, 0u8); n as usize];
+        let mut shares = vec![(0, 0); n as usize];
         for i in 0..n as usize {
             let x = (i + 1) as u8;
             let y = shamir.evaluate(x);
@@ -104,9 +104,9 @@ impl Recover<Vec<u8>> for Shamir {
     fn recover(shares: &[(u8, Vec<u8>)]) -> Result<Vec<u8>, String> {
         Self::validate_recover(shares)?;
         let len = shares[0].1.len();
-        let mut recovered = vec![0u8; len];
+        let mut recovered = vec![0; len];
         for i in 0..len {
-            let mut temp = vec![(0u8, 0u8); shares.len()];
+            let mut temp = vec![(0, 0); shares.len()];
             for j in 0..shares.len() {
                 temp[j].0 = shares[j].0;
                 temp[j].1 = shares[j].1[i];
@@ -133,12 +133,12 @@ impl Share<Vec<u8>> for Shamir {
 
     fn share(secret: &Vec<u8>, n: u8, k: u8) -> Result<Vec<(u8, Vec<u8>)>, String> {
         Self::validate_share(secret, n, k)?;
-        let mut shares = vec![(0u8, Vec::new()); n as usize];
+        let mut shares = vec![(0, vec![0; secret.len()]); n as usize];
         for i in 0..secret.len() {
             let temp = Self::share(&secret[i], n, k)?;
             for j in 0..temp.len() {
                 shares[j].0 = temp[j].0;
-                shares[j].1.push(temp[j].1)
+                shares[j].1[i] = temp[j].1;
             }
         }
         Ok(shares)
