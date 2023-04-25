@@ -1,11 +1,7 @@
-[package]
-name = "shamir"
-version = "0.1.0"
-edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-bip39 = "2.0.0"
-rand = "0.8.5"
-
+[workspace]
+resolver = "2"
+members = [
+    "shamir",
+    "shamir-util",
+]
+default-members = ["shamir"]

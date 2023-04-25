@@ -1,10 +1,8 @@
-use crate::shamir::recover::Recover;
-use crate::shamir::share::Share;
-use crate::shamir::Shamir;
 use bip39::Mnemonic;
 use rand::{thread_rng, Rng};
-
-mod shamir;
+use shamir_util::shamir::recover::Recover;
+use shamir_util::shamir::share::Share;
+use shamir_util::shamir::Shamir;
 
 fn entropy() -> [u8; 32] {
     let mut entropy = [0u8; 32];
