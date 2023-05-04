@@ -1,34 +1,25 @@
-use bip39::Mnemonic;
-use rand::{thread_rng, Rng};
-use shamir_util::shamir::{recover::Recover, share::Share, Shamir};
+use actix_web::*;
+use shamir_model::Update;
 
-fn entropy() -> [u8; 32] {
-    let mut entropy = [0u8; 32];
-    let mut rng = thread_rng();
-    rng.fill(&mut entropy);
-    entropy
+const SECRET_TOKEN_HEADER: &str = "X-Telegram-Bot-Api-Secret-Token";
+const SECRET_TOKEN: &str = "";
+
+async fn handle(update: web::Json<Update>) -> impl Responder {
+    let update = update.0;
+    println!("{update:?}");
+    HttpResponse::Ok().body("Hello, World!")
 }
 
-fn main() {
-    let entropy = entropy();
-    println!("Entropy: {:?}", entropy);
-
-    let mnemonic = Mnemonic::from_entropy(&entropy).unwrap();
-    println!("Seed phrase: {:?}", mnemonic.to_string());
-
-    let shares = Shamir::share(&Vec::from(entropy), 5, 3).unwrap();
-    println!("Shares:");
-    for i in 0..shares.len() {
-        let mnemonic = Mnemonic::from_entropy(&shares[i].1).unwrap();
-        println!("{:?}: {:?}", shares[i].0, mnemonic.to_string());
-    }
-
-    let recovered_entropy = Shamir::recover(&shares).unwrap();
-    println!("Recovered entropy: {:?}", recovered_entropy);
-
-    let recovered_mnemonic = Mnemonic::from_entropy(&recovered_entropy).unwrap();
-    println!(
-        "Recovered seed phrase: {:?}",
-        recovered_mnemonic.to_string()
-    );
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    HttpServer::new(|| {
+        App::new().wrap(middleware::Logger::default()).service(
+            web::resource("/")
+                .guard(guard::Header(SECRET_TOKEN_HEADER, SECRET_TOKEN))
+                .route(web::post().to(handle)),
+        )
+    })
+    .bind(("127.0.0.1", 8080))?
+    .run()
+    .await
 }

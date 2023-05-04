@@ -4,6 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+actix = "0.13.0"
+actix-web = "4.3.1"
 bip39 = "2.0.0"
 rand = "0.8.5"
-shamir-util = { path = "../shamir-util" }
+serde = { version="1.0.160", features = [ "derive" ] }
+shamir-model = { path = "../shamir-model" }
