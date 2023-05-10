@@ -5,8 +5,8 @@ edition = "2021"
 
 [dependencies]
 actix = "0.13.0"
-actix-web = "4.3.1"
-bip39 = "2.0.0"
-rand = "0.8.5"
-serde = { version="1.0.160", features = [ "derive" ] }
+actix-rt = "2.8.0"
+config = { version = "0.13.3", features = ["toml"] }
+shamir-client = { path = "../shamir-client" }
 shamir-model = { path = "../shamir-model" }
+shamir-settings = { path = "../shamir-settings" }

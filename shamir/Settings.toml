@@ -1,0 +1,6 @@
+[telegram]
+token = ""
+
+[telegram.http]
+uri = "https://api.telegram.org"
+timeout = 5

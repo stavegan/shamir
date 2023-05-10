@@ -1,25 +1,22 @@
-use actix_web::*;
-use shamir_model::Update;
+use config::{Config, File};
+use shamir_client::telegram::Client as TelegramClient;
+use shamir_settings::Settings;
 
-const SECRET_TOKEN_HEADER: &str = "X-Telegram-Bot-Api-Secret-Token";
-const SECRET_TOKEN: &str = "";
+const SETTINGS_FILE_NAME: &'static str = "shamir/Settings.toml";
 
-async fn handle(update: web::Json<Update>) -> impl Responder {
-    let update = update.0;
-    println!("{update:?}");
-    HttpResponse::Ok().body("Hello, World!")
-}
-
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new().wrap(middleware::Logger::default()).service(
-            web::resource("/")
-                .guard(guard::Header(SECRET_TOKEN_HEADER, SECRET_TOKEN))
-                .route(web::post().to(handle)),
-        )
-    })
-    .bind(("127.0.0.1", 8080))?
-    .run()
-    .await
+#[actix_rt::main]
+async fn main() {
+    let settings = Config::builder()
+        .add_source(File::with_name(SETTINGS_FILE_NAME))
+        .build()
+        .unwrap()
+        .try_deserialize::<Settings>()
+        .unwrap();
+    println!("{settings:?}");
+    let telegram_client = TelegramClient::from(settings.telegram);
+    loop {
+        let updates = telegram_client.get_updates(818691024);
+        let updates = updates.await;
+        println!("{updates:?}");
+    }
 }

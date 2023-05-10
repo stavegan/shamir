@@ -1,6 +1,8 @@
 [workspace]
 members = [
-    "shamir",
+    "shamir-client",
     "shamir-model",
+    "shamir-settings",
     "shamir-util",
+    "shamir",
 ]
