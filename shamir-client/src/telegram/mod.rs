@@ -6,6 +6,7 @@ use shamir_model::telegram::Message;
 use shamir_model::telegram::MessageId;
 use shamir_model::telegram::Update;
 use shamir_model::telegram::User;
+use shamir_model::telegram::WebhookInfo;
 use shamir_settings::telegram::Settings;
 
 pub struct Client {
@@ -37,6 +38,42 @@ impl Client {
                 .get(format!(
                     "{}/bot{}/getUpdates?offset={offset}&timeout={}",
                     self.settings.http.uri, self.settings.token, self.settings.http.timeout
+                ))
+                .send(),
+        )
+        .await
+    }
+
+    pub async fn set_webhook(&self, request: model::SetWebhookRequest) -> bool {
+        Self::parse(
+            self.client
+                .post(format!(
+                    "{}/bot{}/setWebhook",
+                    self.settings.http.uri, self.settings.token
+                ))
+                .send_json(&request),
+        )
+        .await
+    }
+
+    pub async fn delete_webhook(&self) -> bool {
+        Self::parse(
+            self.client
+                .get(format!(
+                    "{}/bot{}/deleteWebhook",
+                    self.settings.http.uri, self.settings.token
+                ))
+                .send(),
+        )
+        .await
+    }
+
+    pub async fn get_webhook_info(&self) -> WebhookInfo {
+        Self::parse(
+            self.client
+                .get(format!(
+                    "{}/bot{}/getWebhookInfo",
+                    self.settings.http.uri, self.settings.token
                 ))
                 .send(),
         )
@@ -108,6 +145,18 @@ impl Client {
             self.client
                 .post(format!(
                     "{}/bot{}/copyMessage",
+                    self.settings.http.uri, self.settings.token
+                ))
+                .send_json(&request),
+        )
+        .await
+    }
+
+    pub async fn send_photo(&self, request: model::SendPhotoRequest) -> Message {
+        Self::parse(
+            self.client
+                .post(format!(
+                    "{}/bot{}/sendPhoto",
                     self.settings.http.uri, self.settings.token
                 ))
                 .send_json(&request),

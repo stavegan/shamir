@@ -1,7 +1,6 @@
 use config::{Config, File};
-use shamir_client::telegram::model::{ReplyMarkup, SendMessageRequest};
+use shamir_client::telegram::model::SendPhotoRequest;
 use shamir_client::telegram::Client as TelegramClient;
-use shamir_model::telegram::ReplyKeyboardRemove;
 use shamir_settings::Settings;
 
 const SETTINGS_FILE_NAME: &'static str = "shamir/Settings.toml";
@@ -16,23 +15,14 @@ async fn main() {
         .unwrap();
     println!("{settings:?}");
     let telegram_client = TelegramClient::from(settings.telegram);
-    let reply_keyboard_remove = ReplyKeyboardRemove::from(true);
-    let reply_keyboard_remove = Box::new(reply_keyboard_remove);
-    let reply_markup = ReplyMarkup::reply_keyboard_remove(reply_keyboard_remove);
-    let reply_markup = Some(reply_markup);
-    let send_message_request = SendMessageRequest::from(2090208212, String::from("Приветики"));
-    let send_message_request = SendMessageRequest {
-        reply_markup,
-        ..send_message_request
+    let send_photo_request = SendPhotoRequest::from(2090208212, String::from("https://sun9-72.userapi.com/impg/LtMt96zzsoH4vuALy2Q8i6GfGuPfI6hDve5jvw/erZBvoFdRtg.jpg?size=640x640&quality=96&sign=ea7d014a57747d9fc9c6c1cb2b97794f&type=album"));
+    let send_photo_request = SendPhotoRequest {
+        disable_notification: Some(true),
+        ..send_photo_request
     };
-    println!(
-        "{:?}",
-        serde_json::to_string(&send_message_request).unwrap()
-    );
-    // let copy_message_request = CopyMessageRequest::from(2090208212, 2090208212, 13);
-    // let message_id = telegram_client.copy_message(copy_message_request);
-    // let message_id = message_id.await;
-    // println!("{message_id:?}");
+    let message = telegram_client.send_photo(send_photo_request);
+    let message = message.await;
+    println!("{message:?}");
     // loop {
     //     let updates = telegram_client.get_updates(818691025);
     //     let updates = updates.await;

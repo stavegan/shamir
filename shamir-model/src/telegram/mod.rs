@@ -90,6 +90,7 @@ mod video_note;
 mod voice;
 mod web_app_data;
 mod web_app_info;
+mod webhook_info;
 mod write_access_allowed;
 
 pub use crate::telegram::animation::Animation;
@@ -190,4 +191,5 @@ pub use crate::telegram::video_note::VideoNote;
 pub use crate::telegram::voice::Voice;
 pub use crate::telegram::web_app_data::WebAppData;
 pub use crate::telegram::web_app_info::WebAppInfo;
+pub use crate::telegram::webhook_info::WebhookInfo;
 pub use crate::telegram::write_access_allowed::WriteAccessAllowed;
