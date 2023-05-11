@@ -15,7 +15,7 @@ pub struct ForwardMessageRequest {
 
 impl ForwardMessageRequest {
     pub fn from(chat_id: u64, from_chat_id: u64, message_id: u64) -> Self {
-        ForwardMessageRequest {
+        Self {
             chat_id,
             message_thread_id: None,
             from_chat_id,

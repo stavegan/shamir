@@ -15,3 +15,17 @@ pub struct Venue {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub google_place_type: Option<String>,
 }
+
+impl Venue {
+    pub fn from(location: Box<Location>, title: String, address: String) -> Self {
+        Self {
+            location,
+            title,
+            address,
+            foursquare_id: None,
+            foursquare_type: None,
+            google_place_id: None,
+            google_place_type: None,
+        }
+    }
+}

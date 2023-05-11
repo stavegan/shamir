@@ -14,3 +14,16 @@ pub struct ChatJoinRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub invite_link: Option<Box<ChatInviteLink>>,
 }
+
+impl ChatJoinRequest {
+    pub fn from(chat: Box<Chat>, from: Box<User>, user_chat_id: u64, date: u64) -> Self {
+        Self {
+            chat,
+            from,
+            user_chat_id,
+            date,
+            bio: None,
+            invite_link: None,
+        }
+    }
+}

@@ -13,3 +13,23 @@ pub struct SuccessfulPayment {
     pub telegram_payment_charge_id: String,
     pub provider_payment_charge_id: String,
 }
+
+impl SuccessfulPayment {
+    pub fn from(
+        currency: String,
+        total_amount: u64,
+        invoice_payload: String,
+        telegram_payment_charge_id: String,
+        provider_payment_charge_id: String,
+    ) -> Self {
+        Self {
+            currency,
+            total_amount,
+            invoice_payload,
+            shipping_option_id: None,
+            order_info: None,
+            telegram_payment_charge_id,
+            provider_payment_charge_id,
+        }
+    }
+}

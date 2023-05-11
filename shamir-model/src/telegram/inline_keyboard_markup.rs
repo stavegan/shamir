@@ -5,3 +5,9 @@ use serde::{Deserialize, Serialize};
 pub struct InlineKeyboardMarkup {
     pub inline_keyboard: Vec<Vec<Box<InlineKeyboardButton>>>,
 }
+
+impl InlineKeyboardMarkup {
+    pub fn from(inline_keyboard: Vec<Vec<Box<InlineKeyboardButton>>>) -> Self {
+        Self { inline_keyboard }
+    }
+}

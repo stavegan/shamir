@@ -25,9 +25,48 @@ pub struct Poll {
     pub close_date: Option<u64>,
 }
 
+impl Poll {
+    pub fn from(
+        id: String,
+        question: String,
+        options: Vec<Box<PollOption>>,
+        total_voter_count: u64,
+        is_closed: bool,
+        is_anonymous: bool,
+        poll_type: PollType,
+        allows_multiple_answers: bool,
+    ) -> Self {
+        Self {
+            id,
+            question,
+            options,
+            total_voter_count,
+            is_closed,
+            is_anonymous,
+            poll_type,
+            allows_multiple_answers,
+            correct_option_id: None,
+            explanation: None,
+            explanation_entities: None,
+            open_period: None,
+            close_date: None,
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "snake_case")]
 pub enum PollType {
     Regular,
     Quiz,
+}
+
+impl PollType {
+    pub fn regular() -> Self {
+        Self::Regular
+    }
+
+    pub fn quiz() -> Self {
+        Self::Quiz
+    }
 }

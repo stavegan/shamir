@@ -61,3 +61,115 @@ pub enum PassportElementError {
         message: String,
     },
 }
+
+impl PassportElementError {
+    pub fn data_field(
+        data_field_type: EncryptedPassportElementType,
+        field_name: String,
+        data_hash: String,
+        message: String,
+    ) -> Self {
+        Self::DataField {
+            data_field_type,
+            field_name,
+            data_hash,
+            message,
+        }
+    }
+
+    pub fn front_side(
+        front_side_type: EncryptedPassportElementType,
+        file_hash: String,
+        message: String,
+    ) -> Self {
+        Self::FrontSide {
+            front_side_type,
+            file_hash,
+            message,
+        }
+    }
+
+    pub fn reverse_side(
+        reverse_side_type: EncryptedPassportElementType,
+        file_hash: String,
+        message: String,
+    ) -> Self {
+        Self::ReverseSide {
+            reverse_side_type,
+            file_hash,
+            message,
+        }
+    }
+
+    pub fn selfie(
+        selfie_type: EncryptedPassportElementType,
+        file_hash: String,
+        message: String,
+    ) -> Self {
+        Self::Selfie {
+            selfie_type,
+            file_hash,
+            message,
+        }
+    }
+
+    pub fn file(
+        file_type: EncryptedPassportElementType,
+        file_hash: String,
+        message: String,
+    ) -> Self {
+        Self::File {
+            file_type,
+            file_hash,
+            message,
+        }
+    }
+
+    pub fn files(
+        files_type: EncryptedPassportElementType,
+        file_hashes: Vec<String>,
+        message: String,
+    ) -> Self {
+        Self::Files {
+            files_type,
+            file_hashes,
+            message,
+        }
+    }
+
+    pub fn translation_file(
+        translation_file_type: EncryptedPassportElementType,
+        file_hash: String,
+        message: String,
+    ) -> Self {
+        Self::TranslationFile {
+            translation_file_type,
+            file_hash,
+            message,
+        }
+    }
+
+    pub fn translation_files(
+        translation_files_type: EncryptedPassportElementType,
+        file_hashes: Vec<String>,
+        message: String,
+    ) -> Self {
+        Self::TranslationFiles {
+            translation_files_type,
+            file_hashes,
+            message,
+        }
+    }
+
+    pub fn unspecified(
+        unspecified_type: EncryptedPassportElementType,
+        element_hash: String,
+        message: String,
+    ) -> Self {
+        Self::Unspecified {
+            unspecified_type,
+            element_hash,
+            message,
+        }
+    }
+}

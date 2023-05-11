@@ -14,3 +14,23 @@ pub struct PreCheckoutQuery {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub order_info: Option<Box<OrderInfo>>,
 }
+
+impl PreCheckoutQuery {
+    pub fn from(
+        id: String,
+        from: Box<User>,
+        currency: String,
+        total_amount: u64,
+        invoice_payload: String,
+    ) -> Self {
+        Self {
+            id,
+            from,
+            currency,
+            total_amount,
+            invoice_payload,
+            shipping_option_id: None,
+            order_info: None,
+        }
+    }
+}

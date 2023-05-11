@@ -14,3 +14,16 @@ pub struct Document {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub file_size: Option<u64>,
 }
+
+impl Document {
+    pub fn from(file_id: String, file_unique_id: String) -> Self {
+        Self {
+            file_id,
+            file_unique_id,
+            thumbnail: None,
+            file_name: None,
+            mime_type: None,
+            file_size: None,
+        }
+    }
+}

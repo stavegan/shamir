@@ -19,3 +19,19 @@ pub struct Audio {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub thumbnail: Option<Box<PhotoSize>>,
 }
+
+impl Audio {
+    pub fn from(file_id: String, file_unique_id: String, duration: u64) -> Self {
+        Self {
+            file_id,
+            file_unique_id,
+            duration,
+            performer: None,
+            title: None,
+            file_name: None,
+            mime_type: None,
+            file_size: None,
+            thumbnail: None,
+        }
+    }
+}

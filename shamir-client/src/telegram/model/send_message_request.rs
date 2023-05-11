@@ -22,13 +22,13 @@ pub struct SendMessageRequest {
     pub reply_to_message_id: Option<u64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub allow_sending_without_reply: Option<bool>,
-    #[serde(flatten, skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_markup: Option<ReplyMarkup>,
 }
 
 impl SendMessageRequest {
     pub fn from(chat_id: u64, text: String) -> Self {
-        SendMessageRequest {
+        Self {
             chat_id,
             message_thread_id: None,
             text,

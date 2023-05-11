@@ -7,3 +7,9 @@ pub struct ShippingOption {
     pub title: String,
     pub prices: Vec<Box<LabeledPrice>>,
 }
+
+impl ShippingOption {
+    pub fn from(id: String, title: String, prices: Vec<Box<LabeledPrice>>) -> Self {
+        Self { id, title, prices }
+    }
+}

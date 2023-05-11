@@ -7,3 +7,12 @@ pub struct PassportData {
     pub data: Vec<Box<EncryptedPassportElement>>,
     pub credentials: Box<EncryptedCredentials>,
 }
+
+impl PassportData {
+    pub fn from(
+        data: Vec<Box<EncryptedPassportElement>>,
+        credentials: Box<EncryptedCredentials>,
+    ) -> Self {
+        Self { data, credentials }
+    }
+}

@@ -9,3 +9,13 @@ pub struct InlineQueryResultsButton {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub start_parameter: Option<String>,
 }
+
+impl InlineQueryResultsButton {
+    pub fn from(text: String) -> Self {
+        Self {
+            text,
+            web_app: None,
+            start_parameter: None,
+        }
+    }
+}

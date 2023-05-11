@@ -79,38 +79,38 @@ impl Client {
         .await
     }
 
-    pub async fn send_message(&self, request: &model::SendMessageRequest) -> Message {
+    pub async fn send_message(&self, request: model::SendMessageRequest) -> Message {
         Self::parse(
             self.client
                 .post(format!(
                     "{}/bot{}/sendMessage",
                     self.settings.http.uri, self.settings.token
                 ))
-                .send_json(request),
+                .send_json(&request),
         )
         .await
     }
 
-    pub async fn forward_message(&self, request: &model::ForwardMessageRequest) -> Message {
+    pub async fn forward_message(&self, request: model::ForwardMessageRequest) -> Message {
         Self::parse(
             self.client
                 .post(format!(
                     "{}/bot{}/forwardMessage",
                     self.settings.http.uri, self.settings.token
                 ))
-                .send_json(request),
+                .send_json(&request),
         )
         .await
     }
 
-    pub async fn copy_message(&self, request: &model::CopyMessageRequest) -> MessageId {
+    pub async fn copy_message(&self, request: model::CopyMessageRequest) -> MessageId {
         Self::parse(
             self.client
                 .post(format!(
                     "{}/bot{}/copyMessage",
                     self.settings.http.uri, self.settings.token
                 ))
-                .send_json(request),
+                .send_json(&request),
         )
         .await
     }

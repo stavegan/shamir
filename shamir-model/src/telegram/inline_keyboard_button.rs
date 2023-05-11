@@ -26,3 +26,20 @@ pub struct InlineKeyboardButton {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub pay: Option<bool>,
 }
+
+impl InlineKeyboardButton {
+    pub fn from(text: String) -> Self {
+        Self {
+            text,
+            url: None,
+            callback_data: None,
+            web_app: None,
+            login_url: None,
+            switch_inline_query: None,
+            switch_inline_query_current_chat: None,
+            switch_inline_query_chosen_chat: None,
+            callback_game: None,
+            pay: None,
+        }
+    }
+}

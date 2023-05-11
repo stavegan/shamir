@@ -16,3 +16,17 @@ pub struct CallbackQuery {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub game_short_name: Option<String>,
 }
+
+impl CallbackQuery {
+    pub fn from(id: String, from: Box<User>, chat_instance: String) -> Self {
+        Self {
+            id,
+            from,
+            message: None,
+            inline_message_id: None,
+            chat_instance,
+            data: None,
+            game_short_name: None,
+        }
+    }
+}

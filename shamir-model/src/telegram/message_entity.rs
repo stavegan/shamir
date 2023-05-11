@@ -17,6 +17,20 @@ pub struct MessageEntity {
     pub custom_emoji_id: Option<String>,
 }
 
+impl MessageEntity {
+    pub fn from(message_entity_type: MessageEntityType, offset: u64, length: u64) -> Self {
+        Self {
+            message_entity_type,
+            offset,
+            length,
+            url: None,
+            user: None,
+            language: None,
+            custom_emoji_id: None,
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "snake_case")]
 pub enum MessageEntityType {
@@ -37,4 +51,74 @@ pub enum MessageEntityType {
     TextLink,
     TextMention,
     CustomEmoji,
+}
+
+impl MessageEntityType {
+    pub fn mention() -> Self {
+        Self::Mention
+    }
+
+    pub fn hashtag() -> Self {
+        Self::Hashtag
+    }
+
+    pub fn cashtag() -> Self {
+        Self::Cashtag
+    }
+
+    pub fn bot_command() -> Self {
+        Self::BotCommand
+    }
+
+    pub fn url() -> Self {
+        Self::Url
+    }
+
+    pub fn email() -> Self {
+        Self::Email
+    }
+
+    pub fn phone_number() -> Self {
+        Self::PhoneNumber
+    }
+
+    pub fn bold() -> Self {
+        Self::Bold
+    }
+
+    pub fn italic() -> Self {
+        Self::Italic
+    }
+
+    pub fn underline() -> Self {
+        Self::Underline
+    }
+
+    pub fn strikethrough() -> Self {
+        Self::Strikethrough
+    }
+
+    pub fn spoiler() -> Self {
+        Self::Spoiler
+    }
+
+    pub fn code() -> Self {
+        Self::Code
+    }
+
+    pub fn pre() -> Self {
+        Self::Pre
+    }
+
+    pub fn text_link() -> Self {
+        Self::TextLink
+    }
+
+    pub fn text_mention() -> Self {
+        Self::TextMention
+    }
+
+    pub fn custom_emoji() -> Self {
+        Self::CustomEmoji
+    }
 }

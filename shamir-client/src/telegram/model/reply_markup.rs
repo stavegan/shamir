@@ -13,26 +13,20 @@ pub enum ReplyMarkup {
     ForceReply(Box<ForceReply>),
 }
 
-impl From<Box<InlineKeyboardMarkup>> for ReplyMarkup {
-    fn from(inline_keyboard_markup: Box<InlineKeyboardMarkup>) -> Self {
-        ReplyMarkup::InlineKeyboardMarkup(inline_keyboard_markup)
+impl ReplyMarkup {
+    pub fn inline_keyboard_markup(inline_keyboard_markup: Box<InlineKeyboardMarkup>) -> Self {
+        Self::InlineKeyboardMarkup(inline_keyboard_markup)
     }
-}
 
-impl From<Box<ReplyKeyboardMarkup>> for ReplyMarkup {
-    fn from(reply_keyboard_markup: Box<ReplyKeyboardMarkup>) -> Self {
-        ReplyMarkup::ReplyKeyboardMarkup(reply_keyboard_markup)
+    pub fn reply_keyboard_markup(reply_keyboard_markup: Box<ReplyKeyboardMarkup>) -> Self {
+        Self::ReplyKeyboardMarkup(reply_keyboard_markup)
     }
-}
 
-impl From<Box<ReplyKeyboardRemove>> for ReplyMarkup {
-    fn from(reply_keyboard_remove: Box<ReplyKeyboardRemove>) -> Self {
-        ReplyMarkup::ReplyKeyboardRemove(reply_keyboard_remove)
+    pub fn reply_keyboard_remove(reply_keyboard_remove: Box<ReplyKeyboardRemove>) -> Self {
+        Self::ReplyKeyboardRemove(reply_keyboard_remove)
     }
-}
 
-impl From<Box<ForceReply>> for ReplyMarkup {
-    fn from(force_reply: Box<ForceReply>) -> Self {
-        ReplyMarkup::ForceReply(force_reply)
+    pub fn force_reply(force_reply: Box<ForceReply>) -> Self {
+        Self::ForceReply(force_reply)
     }
 }

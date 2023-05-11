@@ -16,3 +16,23 @@ pub struct ChatMemberUpdated {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub via_chat_folder_invite_link: Option<bool>,
 }
+
+impl ChatMemberUpdated {
+    pub fn from(
+        chat: Box<Chat>,
+        from: Box<User>,
+        date: u64,
+        old_chat_member: Box<ChatMember>,
+        new_chat_member: Box<ChatMember>,
+    ) -> Self {
+        Self {
+            chat,
+            from,
+            date,
+            old_chat_member,
+            new_chat_member,
+            invite_link: None,
+            via_chat_folder_invite_link: None,
+        }
+    }
+}

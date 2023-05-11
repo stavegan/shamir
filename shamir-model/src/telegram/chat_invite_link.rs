@@ -17,3 +17,25 @@ pub struct ChatInviteLink {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub pending_join_request_count: Option<u64>,
 }
+
+impl ChatInviteLink {
+    pub fn from(
+        invite_link: String,
+        creator: Box<User>,
+        creates_join_request: bool,
+        is_primary: bool,
+        is_revoked: bool,
+    ) -> Self {
+        Self {
+            invite_link,
+            creator,
+            creates_join_request,
+            is_primary,
+            is_revoked,
+            name: None,
+            expire_date: None,
+            member_limit: None,
+            pending_join_request_count: None,
+        }
+    }
+}

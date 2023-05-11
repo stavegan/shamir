@@ -6,3 +6,12 @@ pub struct ReplyKeyboardRemove {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub selective: Option<bool>,
 }
+
+impl ReplyKeyboardRemove {
+    pub fn from(remove_keyboard: bool) -> Self {
+        Self {
+            remove_keyboard,
+            selective: None,
+        }
+    }
+}

@@ -15,3 +15,16 @@ pub struct Game {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub animation: Option<Box<Animation>>,
 }
+
+impl Game {
+    pub fn from(title: String, description: String, photo: Vec<Box<PhotoSize>>) -> Self {
+        Self {
+            title,
+            description,
+            photo,
+            text: None,
+            text_entities: None,
+            animation: None,
+        }
+    }
+}

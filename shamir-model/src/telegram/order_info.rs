@@ -12,3 +12,14 @@ pub struct OrderInfo {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub shipping_address: Option<Box<ShippingAddress>>,
 }
+
+impl OrderInfo {
+    pub fn from() -> Self {
+        Self {
+            name: None,
+            phone_number: None,
+            email: None,
+            shipping_address: None,
+        }
+    }
+}

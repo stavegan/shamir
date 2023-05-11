@@ -14,6 +14,19 @@ pub struct InlineQuery {
     pub location: Option<Location>,
 }
 
+impl InlineQuery {
+    pub fn from(id: String, from: Box<User>, query: String, offset: String) -> Self {
+        Self {
+            id,
+            from,
+            query,
+            offset,
+            inline_query_chat_type: None,
+            location: None,
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "snake_case")]
 pub enum InlineQueryChatType {
@@ -22,4 +35,26 @@ pub enum InlineQueryChatType {
     Group,
     Supergroup,
     Channel,
+}
+
+impl InlineQueryChatType {
+    pub fn sender() -> Self {
+        Self::Sender
+    }
+
+    pub fn private() -> Self {
+        Self::Private
+    }
+
+    pub fn group() -> Self {
+        Self::Group
+    }
+
+    pub fn supergroup() -> Self {
+        Self::Supergroup
+    }
+
+    pub fn channel() -> Self {
+        Self::Channel
+    }
 }

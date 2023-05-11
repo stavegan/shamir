@@ -31,10 +31,54 @@ pub struct Sticker {
     pub file_size: Option<u64>,
 }
 
+impl Sticker {
+    pub fn from(
+        file_id: String,
+        file_unique_id: String,
+        sticker_type: StickerType,
+        width: u64,
+        height: u64,
+        is_animated: bool,
+        is_video: bool,
+    ) -> Self {
+        Self {
+            file_id,
+            file_unique_id,
+            sticker_type,
+            width,
+            height,
+            is_animated,
+            is_video,
+            thumbnail: None,
+            emoji: None,
+            set_name: None,
+            premium_animation: None,
+            mask_position: None,
+            custom_emoji_id: None,
+            needs_repainting: None,
+            file_size: None,
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "snake_case")]
 pub enum StickerType {
     Regular,
     Mask,
     CustomEmoji,
+}
+
+impl StickerType {
+    pub fn regular() -> Self {
+        Self::Regular
+    }
+
+    pub fn mask() -> Self {
+        Self::Mask
+    }
+
+    pub fn custom_emoji() -> Self {
+        Self::CustomEmoji
+    }
 }

@@ -8,3 +8,13 @@ pub struct KeyboardButtonRequestUser {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub user_is_premium: Option<bool>,
 }
+
+impl KeyboardButtonRequestUser {
+    pub fn from(request_id: u64) -> Self {
+        Self {
+            request_id,
+            user_is_bot: None,
+            user_is_premium: None,
+        }
+    }
+}

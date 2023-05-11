@@ -140,7 +140,6 @@ pub use crate::telegram::input_sticker::InputSticker;
 pub use crate::telegram::invoice::Invoice;
 pub use crate::telegram::keyboard_button::KeyboardButton;
 pub use crate::telegram::keyboard_button_poll_type::KeyboardButtonPollType;
-pub use crate::telegram::keyboard_button_poll_type::KeyboardButtonPollTypeType;
 pub use crate::telegram::keyboard_button_request_chat::KeyboardButtonRequestChat;
 pub use crate::telegram::keyboard_button_request_user::KeyboardButtonRequestUser;
 pub use crate::telegram::labeled_price::LabeledPrice;

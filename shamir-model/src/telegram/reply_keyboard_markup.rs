@@ -15,3 +15,16 @@ pub struct ReplyKeyboardMarkup {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub selective: Option<bool>,
 }
+
+impl ReplyKeyboardMarkup {
+    pub fn from(keyboard: Vec<Vec<Box<KeyboardButton>>>) -> Self {
+        Self {
+            keyboard,
+            is_persistent: None,
+            resize_keyboard: None,
+            one_time_keyboard: None,
+            input_field_placeholder: None,
+            selective: None,
+        }
+    }
+}

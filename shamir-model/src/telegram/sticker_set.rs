@@ -13,3 +13,24 @@ pub struct StickerSet {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub thumbnail: Option<Box<PhotoSize>>,
 }
+
+impl StickerSet {
+    pub fn from(
+        name: String,
+        title: String,
+        sticker_type: StickerType,
+        is_animated: bool,
+        is_video: bool,
+        stickers: Vec<Box<Sticker>>,
+    ) -> Self {
+        Self {
+            name,
+            title,
+            sticker_type,
+            is_animated,
+            is_video,
+            stickers,
+            thumbnail: None,
+        }
+    }
+}

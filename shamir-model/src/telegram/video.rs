@@ -17,3 +17,25 @@ pub struct Video {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub file_size: Option<u64>,
 }
+
+impl Video {
+    pub fn from(
+        file_id: String,
+        file_unique_id: String,
+        width: u64,
+        height: u64,
+        duration: u64,
+    ) -> Self {
+        Self {
+            file_id,
+            file_unique_id,
+            width,
+            height,
+            duration,
+            thumbnail: None,
+            file_name: None,
+            mime_type: None,
+            file_size: None,
+        }
+    }
+}

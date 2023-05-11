@@ -6,3 +6,12 @@ pub struct UserProfilePhotos {
     pub total_count: u64,
     pub photos: Vec<Vec<Box<PhotoSize>>>,
 }
+
+impl UserProfilePhotos {
+    pub fn from(total_count: u64, photos: Vec<Vec<Box<PhotoSize>>>) -> Self {
+        Self {
+            total_count,
+            photos,
+        }
+    }
+}

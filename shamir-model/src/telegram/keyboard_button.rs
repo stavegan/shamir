@@ -20,3 +20,17 @@ pub struct KeyboardButton {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub web_app: Option<Box<WebAppInfo>>,
 }
+
+impl KeyboardButton {
+    pub fn from(text: String) -> Self {
+        Self {
+            text,
+            request_user: None,
+            request_chat: None,
+            request_contact: None,
+            request_location: None,
+            request_poll: None,
+            web_app: None,
+        }
+    }
+}

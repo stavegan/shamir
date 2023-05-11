@@ -8,3 +8,13 @@ pub struct ForceReply {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub selective: Option<bool>,
 }
+
+impl ForceReply {
+    pub fn from(force_reply: bool) -> Self {
+        Self {
+            force_reply,
+            input_field_placeholder: None,
+            selective: None,
+        }
+    }
+}

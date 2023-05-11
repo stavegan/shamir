@@ -7,3 +7,12 @@ pub struct ResponseParameters {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub retry_after: Option<u64>,
 }
+
+impl ResponseParameters {
+    pub fn from() -> Self {
+        Self {
+            migrate_to_chat_id: None,
+            retry_after: None,
+        }
+    }
+}

@@ -11,3 +11,15 @@ pub struct Contact {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub vcard: Option<String>,
 }
+
+impl Contact {
+    pub fn from(phone_number: String, first_name: String) -> Self {
+        Self {
+            phone_number,
+            first_name,
+            last_name: None,
+            user_id: None,
+            vcard: None,
+        }
+    }
+}

@@ -12,3 +12,15 @@ pub struct ChosenInlineResult {
     pub inline_message_id: Option<String>,
     pub query: String,
 }
+
+impl ChosenInlineResult {
+    pub fn from(result_id: String, from: Box<User>, query: String) -> Self {
+        Self {
+            result_id,
+            from,
+            location: None,
+            inline_message_id: None,
+            query,
+        }
+    }
+}

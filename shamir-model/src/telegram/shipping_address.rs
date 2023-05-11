@@ -9,3 +9,23 @@ pub struct ShippingAddress {
     pub street_line2: String,
     pub post_code: String,
 }
+
+impl ShippingAddress {
+    pub fn from(
+        country_code: String,
+        state: String,
+        city: String,
+        street_line1: String,
+        street_line2: String,
+        post_code: String,
+    ) -> Self {
+        Self {
+            country_code,
+            state,
+            city,
+            street_line1,
+            street_line2,
+            post_code,
+        }
+    }
+}

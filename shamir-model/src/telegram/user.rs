@@ -22,3 +22,21 @@ pub struct User {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub supports_inline_queries: Option<bool>,
 }
+
+impl User {
+    pub fn from(id: u64, is_bot: bool, first_name: String) -> Self {
+        Self {
+            id,
+            is_bot,
+            first_name,
+            last_name: None,
+            username: None,
+            language_code: None,
+            is_premium: None,
+            added_to_attachment_menu: None,
+            can_join_groups: None,
+            can_read_all_group_messages: None,
+            supports_inline_queries: None,
+        }
+    }
+}

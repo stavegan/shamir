@@ -8,3 +8,21 @@ pub struct Invoice {
     pub currency: String,
     pub total_amount: u64,
 }
+
+impl Invoice {
+    pub fn from(
+        title: String,
+        description: String,
+        start_parameter: String,
+        currency: String,
+        total_amount: u64,
+    ) -> Self {
+        Self {
+            title,
+            description,
+            start_parameter,
+            currency,
+            total_amount,
+        }
+    }
+}

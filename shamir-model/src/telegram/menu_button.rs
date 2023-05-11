@@ -8,3 +8,17 @@ pub enum MenuButton {
     WebApp { text: String, web_app: WebAppInfo },
     Default,
 }
+
+impl MenuButton {
+    pub fn commands() -> Self {
+        Self::Commands
+    }
+
+    pub fn web_app(text: String, web_app: WebAppInfo) -> Self {
+        Self::WebApp { text, web_app }
+    }
+
+    pub fn default() -> Self {
+        Self::Default
+    }
+}

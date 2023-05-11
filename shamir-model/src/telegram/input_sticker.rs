@@ -10,3 +10,14 @@ pub struct InputSticker {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub keywords: Option<Vec<String>>,
 }
+
+impl InputSticker {
+    pub fn from(sticker: String, emoji_list: Vec<String>) -> Self {
+        Self {
+            sticker,
+            emoji_list,
+            mask_position: None,
+            keywords: None,
+        }
+    }
+}

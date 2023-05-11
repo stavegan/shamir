@@ -10,3 +10,14 @@ pub struct LoginUrl {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub request_write_access: Option<bool>,
 }
+
+impl LoginUrl {
+    pub fn from(url: String) -> Self {
+        Self {
+            url,
+            forward_text: None,
+            bot_username: None,
+            request_write_access: None,
+        }
+    }
+}

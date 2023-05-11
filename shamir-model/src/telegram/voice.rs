@@ -10,3 +10,15 @@ pub struct Voice {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub file_size: Option<u64>,
 }
+
+impl Voice {
+    pub fn from(file_id: String, file_unique_id: String, duration: u64) -> Self {
+        Self {
+            file_id,
+            file_unique_id,
+            duration,
+            mime_type: None,
+            file_size: None,
+        }
+    }
+}

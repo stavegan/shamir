@@ -4,3 +4,9 @@ use serde::{Deserialize, Serialize};
 pub struct BotDescription {
     pub description: String,
 }
+
+impl BotDescription {
+    pub fn from(description: String) -> Self {
+        Self { description }
+    }
+}

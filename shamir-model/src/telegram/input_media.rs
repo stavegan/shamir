@@ -86,3 +86,68 @@ pub enum InputMedia {
         disable_content_type_detection: Option<bool>,
     },
 }
+
+impl InputMedia {
+    pub fn photo(media: String) -> Self {
+        Self::Photo {
+            media,
+            caption: None,
+            parse_mode: None,
+            caption_entities: None,
+            has_spoiler: None,
+        }
+    }
+
+    pub fn video(media: String) -> Self {
+        Self::Video {
+            media,
+            thumbnail: None,
+            caption: None,
+            parse_mode: None,
+            caption_entities: None,
+            width: None,
+            height: None,
+            duration: None,
+            supports_streaming: None,
+            has_spoiler: None,
+        }
+    }
+
+    pub fn animation(media: String) -> Self {
+        Self::Animation {
+            media,
+            thumbnail: None,
+            caption: None,
+            parse_mode: None,
+            caption_entities: None,
+            width: None,
+            height: None,
+            duration: None,
+            has_spoiler: None,
+        }
+    }
+
+    pub fn audio(media: String) -> Self {
+        Self::Audio {
+            media,
+            thumbnail: None,
+            caption: None,
+            parse_mode: None,
+            caption_entities: None,
+            duration: None,
+            performer: None,
+            title: None,
+        }
+    }
+
+    pub fn document(media: String) -> Self {
+        Self::Document {
+            media,
+            thumbnail: None,
+            caption: None,
+            parse_mode: None,
+            caption_entities: None,
+            disable_content_type_detection: None,
+        }
+    }
+}

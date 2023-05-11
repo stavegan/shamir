@@ -85,3 +85,79 @@ pub enum InputMessageContent {
         is_flexible: Option<bool>,
     },
 }
+
+impl InputMessageContent {
+    pub fn message(message_text: String) -> Self {
+        Self::Message {
+            message_text,
+            parse_mode: None,
+            entities: None,
+            disable_web_page_preview: None,
+        }
+    }
+
+    pub fn venue(latitude: f64, longitude: f64, title: String, address: String) -> Self {
+        Self::Venue {
+            latitude,
+            longitude,
+            title,
+            address,
+            foursquare_id: None,
+            foursquare_type: None,
+            google_place_id: None,
+            google_place_type: None,
+        }
+    }
+
+    pub fn location(latitude: f64, longitude: f64) -> Self {
+        Self::Location {
+            latitude,
+            longitude,
+            horizontal_accuracy: None,
+            live_period: None,
+            heading: None,
+            proximity_alert_radius: None,
+        }
+    }
+
+    pub fn contact(phone_number: String, first_name: String) -> Self {
+        Self::Contact {
+            phone_number,
+            first_name,
+            last_name: None,
+            vcard: None,
+        }
+    }
+
+    pub fn invoice(
+        title: String,
+        description: String,
+        payload: String,
+        provider_token: String,
+        currency: String,
+        prices: Vec<Box<LabeledPrice>>,
+    ) -> Self {
+        Self::Invoice {
+            title,
+            description,
+            payload,
+            provider_token,
+            currency,
+            prices,
+            max_tip_amount: None,
+            suggested_tip_amounts: None,
+            provider_data: None,
+            photo_url: None,
+            photo_size: None,
+            photo_width: None,
+            photo_height: None,
+            need_name: None,
+            need_phone_number: None,
+            need_email: None,
+            need_shipping_address: None,
+            send_phone_number_to_provider: None,
+            send_email_to_provider: None,
+            is_flexible: None,
+        }
+    }
+}

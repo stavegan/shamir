@@ -4,3 +4,9 @@ use serde::{Deserialize, Serialize};
 pub struct WebAppInfo {
     pub url: String,
 }
+
+impl WebAppInfo {
+    pub fn from(url: String) -> Self {
+        Self { url }
+    }
+}

@@ -12,3 +12,16 @@ pub struct VideoNote {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub file_size: Option<u64>,
 }
+
+impl VideoNote {
+    pub fn from(file_id: String, file_unique_id: String, length: u64, duration: u64) -> Self {
+        Self {
+            file_id,
+            file_unique_id,
+            length,
+            duration,
+            thumbnail: None,
+            file_size: None,
+        }
+    }
+}
