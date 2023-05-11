@@ -1,4 +1,5 @@
 use config::{Config, File};
+use shamir_client::telegram::model::CopyMessageRequest;
 use shamir_client::telegram::Client as TelegramClient;
 use shamir_settings::Settings;
 
@@ -14,9 +15,13 @@ async fn main() {
         .unwrap();
     println!("{settings:?}");
     let telegram_client = TelegramClient::from(settings.telegram);
-    loop {
-        let updates = telegram_client.get_updates(818691024);
-        let updates = updates.await;
-        println!("{updates:?}");
-    }
+    let copy_message_request = CopyMessageRequest::from(2090208212, 2090208212, 13);
+    let message_id = telegram_client.copy_message(&copy_message_request);
+    let message_id = message_id.await;
+    println!("{message_id:?}");
+    // loop {
+    //     let updates = telegram_client.get_updates(818691025);
+    //     let updates = updates.await;
+    //     println!("{updates:?}");
+    // }
 }

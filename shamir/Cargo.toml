@@ -10,3 +10,6 @@ config = { version = "0.13.3", features = ["toml"] }
 shamir-client = { path = "../shamir-client" }
 shamir-model = { path = "../shamir-model" }
 shamir-settings = { path = "../shamir-settings" }
+
+serde = { version="1.0.160", features = [ "derive" ] }
+serde_json = "1.0.96"
